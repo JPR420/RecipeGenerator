@@ -1,5 +1,6 @@
 package edu.farmingdale.recipegenerator;
 
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,7 +11,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.Objects;
 
@@ -32,6 +35,12 @@ public class LoginController {
     private ImageView backgroundImageView;
 
     @FXML
+    private Text titleText;
+
+    @FXML
+    private Text titlePhrase;
+
+    @FXML
     private void initialize() {
         // Set the image for the background
         try {
@@ -42,6 +51,16 @@ public class LoginController {
             e.printStackTrace();
             showAlert("Error", "Could not load the background image.", AlertType.ERROR);
         }
+        FadeTransition fade = new FadeTransition(Duration.seconds(2), titleText);
+        fade.setFromValue(0);
+        fade.setToValue(1);
+        fade.play();
+
+        FadeTransition fade2 = new FadeTransition(Duration.seconds(2), titlePhrase);
+        fade.setFromValue(0);
+        fade.setToValue(1);
+        fade.setCycleCount(1);
+        fade.play();
     }
 
     @FXML
