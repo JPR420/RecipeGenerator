@@ -26,7 +26,7 @@ public class LoginController {
 
     @FXML
     private void initialize() {
-        // Initialize logic if needed
+        // No image is being set, this is left empty now
     }
 
     @FXML
@@ -39,20 +39,15 @@ public class LoginController {
             return;
         }
 
-        // Here you can add authentication logic, for example:
-        // If the username and password are valid (this can be a simple check for now):
-        if (username.equals("user") && password.equals("password")) {
-            // Login success, proceed to open the next window (Main Window)
-            openMainWindow();
-        } else {
-            showAlert("Login Error", "Invalid username or password.", AlertType.ERROR);
-        }
+        // For now, we are skipping the authentication logic
+        // Open the main window (fridge management window)
+        openMainWindow();
     }
 
     @FXML
     private void handleSignUpButtonAction() {
-        // Handle Sign Up (this can be implemented later or could lead to another scene)
-        showAlert("Sign Up", "Sign Up functionality is not yet implemented.", AlertType.INFORMATION);
+        // Open the Sign Up window
+        openSignUpWindow();
     }
 
     private void showAlert(String title, String message, AlertType type) {
@@ -76,6 +71,23 @@ public class LoginController {
         } catch (Exception e) {
             e.printStackTrace();
             showAlert("Error", "Could not load the main window.", AlertType.ERROR);
+        }
+    }
+
+    private void openSignUpWindow() {
+        try {
+            // Close the current window (login window)
+            Stage stage = (Stage) signUpButton.getScene().getWindow();
+            stage.close();
+
+            // Load the Sign-Up scene
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/farmingdale/recipegenerator/sign-up.fxml"));
+            Stage newStage = new Stage();
+            newStage.setScene(new Scene(loader.load()));
+            newStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Error", "Could not load the sign-up window.", AlertType.ERROR);
         }
     }
 }
