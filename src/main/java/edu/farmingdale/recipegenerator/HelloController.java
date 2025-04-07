@@ -3,7 +3,6 @@ package edu.farmingdale.recipegenerator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.DropShadow;
@@ -11,7 +10,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 public class HelloController {
 
@@ -47,6 +45,8 @@ public class HelloController {
 
     private ObservableList<Item> itemsObservable;
 
+    @FXML
+    private ImageView tomatoImageView;  // Declare ImageView for the tomato image
 
     @FXML
     public void initialize() {
@@ -59,6 +59,31 @@ public class HelloController {
         fridgeImageView.setFitWidth(280);
         fridgeImageView.setFitHeight(200);
         fridgeImageView.setPreserveRatio(true);
+
+        // Load the tomato image and make it clickable
+        Image tomatoImage = new Image(getClass().getResource("/images/t1.jpg").toExternalForm());
+        tomatoImageView = new ImageView(tomatoImage);
+        tomatoImageView.setFitHeight(45);
+        tomatoImageView.setFitWidth(45);
+        tomatoImageView.setPreserveRatio(true);
+
+        DropShadow shadow = new DropShadow();
+        shadow.setRadius(3.0);
+        shadow.setOffsetX(2.0);
+        shadow.setOffsetY(2.0);
+        shadow.setColor(Color.gray(0.5));
+        tomatoImageView.setEffect(shadow);
+
+        // Position the image on the fridge
+        tomatoImageView.setLayoutX(30 + Math.random() * 200);
+        tomatoImageView.setLayoutY(20 + Math.random() * 130);
+
+        fridgePane.getChildren().add(tomatoImageView);
+
+        // Make the tomato image clickable
+        tomatoImageView.setOnMouseClicked(event -> {
+            addToTableView();
+        });
 
         // Tooltips for better UX
         addButton.setTooltip(new Tooltip("Add item to fridge"));
@@ -90,60 +115,29 @@ public class HelloController {
 
     @FXML
     protected void addToTableView() {
-        String name = nameTextField.getText().trim();
-        int quantity = 0;
-        String weight = "";
-
-        if (name.isEmpty()) {
+        if ("Tomato".isEmpty()) {
             alertLabel.setText("Name is mandatory.");
             return;
         }
 
-        if (quantityTextField.getText().isEmpty() && weightTextField.getText().isEmpty()) {
+        if (1 <= 0 && ("Fresh" == null || "Fresh".isEmpty())) {
             alertLabel.setText("Either quantity or weight must be provided.");
             return;
         }
 
         try {
-            if (!quantityTextField.getText().isEmpty()) {
-                quantity = Integer.parseInt(quantityTextField.getText());
-            }
+            Item newItem = new Item("Tomato", 1, "Fresh");
+            itemsObservable.add(newItem);
 
-            if (!weightTextField.getText().isEmpty()) {
-                weight = weightTextField.getText().trim();
-            }
-
+            // Clear fields if you want to reset them
+            nameTextField.clear();
+            quantityTextField.clear();
+            weightTextField.clear();
+            alertLabel.setText("");
         } catch (Exception e) {
             alertLabel.setText("Invalid input.");
             return;
         }
-
-        Item newItem = new Item(name, quantity, weight.isEmpty() ? null : weight);
-        itemsObservable.add(newItem);
-
-        // Clear fields
-        nameTextField.clear();
-        quantityTextField.clear();
-        weightTextField.clear();
-        alertLabel.setText("");
-
-        // Visual: Display item in fridge
-        Image itemImage = new Image(getClass().getResource("/images/tomato.avif").toExternalForm());
-        ImageView itemView = new ImageView(itemImage);
-        itemView.setFitHeight(45);
-        itemView.setFitWidth(45);
-
-        DropShadow shadow = new DropShadow();
-        shadow.setRadius(3.0);
-        shadow.setOffsetX(2.0);
-        shadow.setOffsetY(2.0);
-        shadow.setColor(Color.gray(0.5));
-        itemView.setEffect(shadow);
-
-        itemView.setLayoutX(30 + Math.random() * 200);
-        itemView.setLayoutY(20 + Math.random() * 130);
-
-        fridgePane.getChildren().add(itemView);
     }
 
     @FXML
