@@ -34,6 +34,7 @@ public class OpenAI {
         );
         body.put("max_tokens", 2000);
 
+
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.openai.com/v1/chat/completions"))
                 .header("Content-Type", "application/json")
