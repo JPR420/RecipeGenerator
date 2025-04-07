@@ -1,9 +1,56 @@
-#AnchorPane{
-    background-color: aqua;
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-background-color: linear-gradient(to bottom, #f8f9fa, #dee2e6);
+    -fx-padding: 20px;
 }
-#addButton{
-    background-color: aqua;
+
+.label {
+    -fx-text-fill: #333;
+    -fx-font-size: 16px;
 }
-#welcomeText{
-    color: red;
+
+.button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-padding: 8 15;
+}
+
+.button:hover {
+    -fx-background-color: #45a049;
+    -fx-cursor: hand;
+}
+
+.text-field, .text-area {
+    -fx-background-radius: 8;
+    -fx-padding: 6;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 8;
+}
+
+.table-view {
+    -fx-background-color: #fff;
+    -fx-border-radius: 10;
+    -fx-padding: 10;
+    -fx-border-color: #ccc;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #4CAF50;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-size: 35px;
+    -fx-alignment: center-left;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.cool-text-area {
+    -fx-background-color: #e3f2fd;
+    -fx-font-size: 14px;
+    -fx-border-color: #90caf9;
+    -fx-border-radius: 8;
+    -fx-padding: 8;
 }

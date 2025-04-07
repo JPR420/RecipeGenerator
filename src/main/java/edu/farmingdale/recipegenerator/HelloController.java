@@ -3,11 +3,15 @@ package edu.farmingdale.recipegenerator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 public class HelloController {
 
@@ -48,11 +52,30 @@ public class HelloController {
         setUpTableView();
         responseTextArea.setVisible(false);
 
-        // Load fridge image
+        // Load and style fridge image
         Image fridgeImage = new Image(getClass().getResource("/images/open_fridge.png").toExternalForm());
         fridgeImageView.setImage(fridgeImage);
-        fridgeImageView.setFitWidth(300);
+        fridgeImageView.setFitWidth(280);
+        fridgeImageView.setFitHeight(200);
         fridgeImageView.setPreserveRatio(true);
+
+        // Tooltips for better UX
+        addButton.setTooltip(new Tooltip("Add item to fridge"));
+        generateButton.setTooltip(new Tooltip("Generate recipe from fridge contents"));
+
+        // Hover effects
+        addButton.setOnMouseEntered(e -> addButton.setScaleX(1.05));
+        addButton.setOnMouseExited(e -> addButton.setScaleX(1.0));
+
+        generateButton.setOnMouseEntered(e -> generateButton.setScaleY(1.05));
+        generateButton.setOnMouseExited(e -> generateButton.setScaleY(1.0));
+
+        // Apply CSS
+        fridgePane.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                newScene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+            }
+        });
     }
 
     public void setUpTableView() {
@@ -90,7 +113,8 @@ public class HelloController {
             }
 
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            alertLabel.setText("Invalid input.");
+            return;
         }
 
         Item newItem = new Item(name, quantity, weight.isEmpty() ? null : weight);
@@ -102,15 +126,21 @@ public class HelloController {
         weightTextField.clear();
         alertLabel.setText("");
 
-        // Display item image in fridge
-        Image itemImage = new Image(getClass().getResource("/images/item.png").toExternalForm());
+        // Visual: Display item in fridge
+        Image itemImage = new Image(getClass().getResource("/images/tomato.avif").toExternalForm());
         ImageView itemView = new ImageView(itemImage);
-        itemView.setFitHeight(40);
-        itemView.setFitWidth(40);
+        itemView.setFitHeight(45);
+        itemView.setFitWidth(45);
 
-        // Random placement inside the fridge pane
-        itemView.setLayoutX(50 + Math.random() * 180);
-        itemView.setLayoutY(60 + Math.random() * 250);
+        DropShadow shadow = new DropShadow();
+        shadow.setRadius(3.0);
+        shadow.setOffsetX(2.0);
+        shadow.setOffsetY(2.0);
+        shadow.setColor(Color.gray(0.5));
+        itemView.setEffect(shadow);
+
+        itemView.setLayoutX(30 + Math.random() * 200);
+        itemView.setLayoutY(20 + Math.random() * 130);
 
         fridgePane.getChildren().add(itemView);
     }
@@ -153,6 +183,9 @@ public class HelloController {
             responseTextArea.setVisible(true);
             responseTextArea.setEditable(false);
             responseTextArea.setText(response);
+
+            responseTextArea.getStyleClass().add("cool-text-area");
+
         } catch (Exception e) {
             e.printStackTrace();
             responseTextArea.setText("Failed to generate recipe. Please try again.");
