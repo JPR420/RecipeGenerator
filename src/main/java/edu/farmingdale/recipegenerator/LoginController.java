@@ -8,7 +8,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+
+import java.util.Objects;
 
 public class LoginController {
 
@@ -25,8 +29,19 @@ public class LoginController {
     private Button signUpButton;
 
     @FXML
+    private ImageView backgroundImageView;
+
+    @FXML
     private void initialize() {
-        // No image is being set, this is left empty now
+        // Set the image for the background
+        try {
+            Image backgroundImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/b4.jpg")));
+            backgroundImageView.setImage(backgroundImage);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Error", "Could not load the background image.", AlertType.ERROR);
+        }
     }
 
     @FXML

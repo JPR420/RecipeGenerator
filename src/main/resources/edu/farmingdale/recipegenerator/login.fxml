@@ -10,6 +10,7 @@
 <?import javafx.scene.image.Image?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="edu.farmingdale.recipegenerator.LoginController" >
 
+    <ImageView fx:id="backgroundImageView" fitHeight="800" fitWidth="600" preserveRatio="true" />
 
     <!-- Title -->
     <Text text="Login" layoutX="180" layoutY="60" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-fill: white;" />
