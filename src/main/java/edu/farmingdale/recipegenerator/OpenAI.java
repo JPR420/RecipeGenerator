@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
  * Utility class to interact with OpenAI's API.
  */
 public class OpenAI {
-    private static final String API_KEY = System.getenv("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");
+    private static final String API_KEY = System.getenv("");
 
     /**
      * Sends a prompt to the OpenAI API and retrieves a text response.

@@ -47,6 +47,7 @@ public class HelloController {
 
     private ObservableList<Item> itemsObservable;
 
+
     @FXML
     public void initialize() {
         setUpTableView();
@@ -73,7 +74,7 @@ public class HelloController {
         // Apply CSS
         fridgePane.sceneProperty().addListener((obs, oldScene, newScene) -> {
             if (newScene != null) {
-                newScene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+                newScene.getStylesheets().add(getClass().getResource("/Styling/style.css").toExternalForm());
             }
         });
     }
