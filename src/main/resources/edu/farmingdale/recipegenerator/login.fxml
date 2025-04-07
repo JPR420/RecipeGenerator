@@ -10,22 +10,33 @@
 <?import javafx.scene.image.Image?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="edu.farmingdale.recipegenerator.LoginController" >
 
-    <ImageView fx:id="backgroundImageView" fitHeight="800" fitWidth="600" preserveRatio="true" />
-
-    <!-- Title -->
-    <Text text="Login" layoutX="180" layoutY="60" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-fill: white;" />
+    <ImageView fx:id="backgroundImageView" fitHeight="900" fitWidth="1400" />
 
     <!-- Username Field -->
-    <TextField fx:id="usernameTextField" layoutX="100" layoutY="130" promptText="Username" style="-fx-pref-width: 250px; -fx-background-color: rgba(255, 255, 255, 0.7); -fx-text-fill: black; -fx-prompt-text-fill: #888; -fx-font-size: 14px;" />
+    <TextField fx:id="usernameTextField" layoutX="60" layoutY="200" promptText="Username"
+               style="-fx-pref-width: 250px; -fx-background-color: rgba(255, 255, 255, 0.7);
+                  -fx-text-fill: black; -fx-prompt-text-fill: #888; -fx-font-size: 14px;" />
 
     <!-- Password Field -->
-    <PasswordField fx:id="passwordField" layoutX="100" layoutY="180" promptText="Password" style="-fx-pref-width: 250px; -fx-background-color: rgba(255, 255, 255, 0.7); -fx-text-fill: black; -fx-prompt-text-fill: #888; -fx-font-size: 14px;" />
+    <PasswordField fx:id="passwordField" layoutX="60" layoutY="250" promptText="Password"
+                   style="-fx-pref-width: 250px; -fx-background-color: rgba(255, 255, 255, 0.7);
+                      -fx-text-fill: black; -fx-prompt-text-fill: #888; -fx-font-size: 14px;" />
 
     <!-- Login Button -->
-    <Button fx:id="loginButton" text="Log In" layoutX="100" layoutY="230" onAction="#handleLoginButtonAction"
-            style="-fx-pref-width: 250px; -fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" />
+    <Button fx:id="loginButton" text="Log In" layoutX="60" layoutY="300" onAction="#handleLoginButtonAction"
+            style="-fx-pref-width: 250px; -fx-background-color: #4CAF50;
+               -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" />
 
     <!-- Sign Up Button -->
-    <Button fx:id="signUpButton" text="Sign Up" layoutX="100" layoutY="280" onAction="#handleSignUpButtonAction"
-            style="-fx-pref-width: 250px; -fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" />
+    <Button fx:id="signUpButton" text="Sign Up" layoutX="60" layoutY="350" onAction="#handleSignUpButtonAction"
+            style="-fx-pref-width: 250px; -fx-background-color: #FF9800;
+               -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" />
+
+    <!-- App Title -->
+    <Text text="AI Recipe Generator" layoutX="60" layoutY="100"
+          style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-fill: white;" />
+
+    <!-- Page Title -->
+    <Text text="Login" layoutX="60" layoutY="160"
+          style="-fx-font-size: 24; -fx-font-weight: bold; -fx-fill: white;" />
 </AnchorPane>
