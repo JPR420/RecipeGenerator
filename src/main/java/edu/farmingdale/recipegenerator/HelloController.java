@@ -5,38 +5,106 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 
 public class HelloController {
 
     @FXML
-    private Label welcomeText,alertLabel;
+    private Label welcomeText, alertLabel;
+
     @FXML
     private TextArea responseTextArea;
+
     @FXML
     private TextField nameTextField, quantityTextField, weightTextField;
+
     @FXML
     private Button generateButton, addButton;
+
     @FXML
     private TableView<Item> tableView;
+
     @FXML
     private TableColumn<Item, String> nameColumn;
+
     @FXML
     private TableColumn<Item, Integer> quantityColumn;
+
     @FXML
     private TableColumn<Item, String> weightColumn;
+
+    @FXML
+    private AnchorPane fridgePane;
+
+    @FXML
+    private ImageView fridgeImageView;
 
     private ObservableList<Item> itemsObservable;
 
     @FXML
+    private ImageView tomatoImageView;  // Declare ImageView for the tomato image
+
+    @FXML
     public void initialize() {
         setUpTableView();
-
         responseTextArea.setVisible(false);
 
+        // Load and style fridge image
+        Image fridgeImage = new Image(getClass().getResource("/images/open_fridge.png").toExternalForm());
+        fridgeImageView.setImage(fridgeImage);
+        fridgeImageView.setFitWidth(280);
+        fridgeImageView.setFitHeight(200);
+        fridgeImageView.setPreserveRatio(true);
+
+        // Load the tomato image and make it clickable
+        Image tomatoImage = new Image(getClass().getResource("/images/t1.jpg").toExternalForm());
+        tomatoImageView = new ImageView(tomatoImage);
+        tomatoImageView.setFitHeight(45);
+        tomatoImageView.setFitWidth(45);
+        tomatoImageView.setPreserveRatio(true);
+
+        DropShadow shadow = new DropShadow();
+        shadow.setRadius(3.0);
+        shadow.setOffsetX(2.0);
+        shadow.setOffsetY(2.0);
+        shadow.setColor(Color.gray(0.5));
+        tomatoImageView.setEffect(shadow);
+
+        // Position the image on the fridge
+        tomatoImageView.setLayoutX(30 + Math.random() * 200);
+        tomatoImageView.setLayoutY(20 + Math.random() * 130);
+
+        fridgePane.getChildren().add(tomatoImageView);
+
+        // Make the tomato image clickable
+        tomatoImageView.setOnMouseClicked(event -> {
+            addToTableView();
+        });
+
+        // Tooltips for better UX
+        addButton.setTooltip(new Tooltip("Add item to fridge"));
+        generateButton.setTooltip(new Tooltip("Generate recipe from fridge contents"));
+
+        // Hover effects
+        addButton.setOnMouseEntered(e -> addButton.setScaleX(1.05));
+        addButton.setOnMouseExited(e -> addButton.setScaleX(1.0));
+
+        generateButton.setOnMouseEntered(e -> generateButton.setScaleY(1.05));
+        generateButton.setOnMouseExited(e -> generateButton.setScaleY(1.0));
+
+        // Apply CSS
+        fridgePane.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                newScene.getStylesheets().add(getClass().getResource("/Styling/style.css").toExternalForm());
+            }
+        });
     }
 
     public void setUpTableView() {
-
         itemsObservable = FXCollections.observableArrayList();
         tableView.setItems(itemsObservable);
 
@@ -47,78 +115,54 @@ public class HelloController {
 
     @FXML
     protected void addToTableView() {
-        String name = nameTextField.getText().trim();
-        int quantity = 0;
-        String weight = "";
-
-        // Check if the name is provided (mandatory)
-        if (name.isEmpty()) {
+        if ("Tomato".isEmpty()) {
             alertLabel.setText("Name is mandatory.");
             return;
         }
 
-        // If neither quantity nor weight is provided, show an error message
-        if (quantityTextField.getText().isEmpty() && weightTextField.getText().isEmpty()) {
+        if (1 <= 0 && ("Fresh" == null || "Fresh".isEmpty())) {
             alertLabel.setText("Either quantity or weight must be provided.");
             return;
         }
 
         try {
-            // Check if quantity is provided
-            if (!quantityTextField.getText().isEmpty()) {
-                quantity = Integer.parseInt(quantityTextField.getText());
-            }
+            Item newItem = new Item("Tomato", 1, "Fresh");
+            itemsObservable.add(newItem);
 
-            // Check if weight is provided
-            if (!weightTextField.getText().isEmpty()) {
-                weight = weightTextField.getText().trim();
-            }
-
+            // Clear fields if you want to reset them
+            nameTextField.clear();
+            quantityTextField.clear();
+            weightTextField.clear();
+            alertLabel.setText("");
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            alertLabel.setText("Invalid input.");
+            return;
         }
-
-        //Create new item with validated fields
-        Item newItem = new Item(name, quantity, weight.isEmpty() ? null : weight);
-
-        // Add item to ObservableList
-        itemsObservable.add(newItem);
-
-        //Clear text fields after adding the item
-        nameTextField.clear();
-        quantityTextField.clear();
-        weightTextField.clear();
-        alertLabel.setText("");
     }
 
     @FXML
     public void generateButtonMethod() {
-        // Collect all the items from the TableView
         ObservableList<Item> items = tableView.getItems();
 
-        // Build a string representation of the items for the prompt
         StringBuilder prompt = new StringBuilder();
         prompt.append("I will provide you with a list of ingredients. Please use these ingredients to generate a recipe.\n");
         prompt.append("Ensure that the recipe is concise and uses the given ingredients directly. Format the recipe clearly with proper indentation.\n\n");
 
         prompt.append("Ingredients:\n");
         for (Item item : items) {
-            // Check if the quantity is not null or zero before appending it
             if (item.getQuantity() > 0) {
                 prompt.append(item.getQuantity()).append(" ");
             }
 
-            // Always append the item name
             prompt.append(item.getName());
 
-            // If weight is provided it will be added
             if (item.getWeight() != null) {
                 prompt.append(" ").append(item.getWeight());
             }
 
             prompt.append("\n");
         }
-            // this gives a prompt on how to reply
+
         prompt.append("\nRecipe:\n");
         prompt.append("1. Start by preparing the ingredients as follows:\n");
         prompt.append("   - For each ingredient, follow the steps as needed.\n");
@@ -128,18 +172,18 @@ public class HelloController {
 
         prompt.append("\nEnd of prompt.");
 
-        // Send the prompt to OpenAI
         try {
             String response = OpenAI.getTextResponse(prompt.toString());
 
             responseTextArea.setVisible(true);
             responseTextArea.setEditable(false);
-            //display the response from OpenAI
             responseTextArea.setText(response);
+
+            responseTextArea.getStyleClass().add("cool-text-area");
+
         } catch (Exception e) {
             e.printStackTrace();
             responseTextArea.setText("Failed to generate recipe. Please try again.");
         }
     }
-
 }

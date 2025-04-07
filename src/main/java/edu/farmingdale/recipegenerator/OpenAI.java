@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
  * Utility class to interact with OpenAI's API.
  */
 public class OpenAI {
-    private static final String API_KEY = System.getenv("APIKEY");
+    private static final String API_KEY = System.getenv("");
 
     /**
      * Sends a prompt to the OpenAI API and retrieves a text response.
@@ -33,6 +33,7 @@ public class OpenAI {
                 .put(new JSONObject().put("role", "user").put("content", prompt))
         );
         body.put("max_tokens", 2000);
+
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.openai.com/v1/chat/completions"))
