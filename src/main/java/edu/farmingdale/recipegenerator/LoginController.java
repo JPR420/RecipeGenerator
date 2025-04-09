@@ -42,25 +42,36 @@ public class LoginController {
 
     @FXML
     private void initialize() {
-        // Set the image for the background
         try {
             Image backgroundImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/b4.jpg")));
             backgroundImageView.setImage(backgroundImage);
-
         } catch (Exception e) {
             e.printStackTrace();
             showAlert("Error", "Could not load the background image.", AlertType.ERROR);
         }
+
+        // Dynamically bind image view to scene width and height while preserving aspect ratio
+        backgroundImageView.setPreserveRatio(false);
+        backgroundImageView.setSmooth(true);
+        backgroundImageView.setCache(true);
+
+        backgroundImageView.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                backgroundImageView.fitWidthProperty().bind(newScene.widthProperty());
+                backgroundImageView.fitHeightProperty().bind(newScene.heightProperty());
+            }
+    });
+
+        // Fade in animations
         FadeTransition fade = new FadeTransition(Duration.seconds(2), titleText);
         fade.setFromValue(0);
         fade.setToValue(1);
         fade.play();
 
         FadeTransition fade2 = new FadeTransition(Duration.seconds(2), titlePhrase);
-        fade.setFromValue(0);
-        fade.setToValue(1);
-        fade.setCycleCount(1);
-        fade.play();
+        fade2.setFromValue(0);
+        fade2.setToValue(1);
+        fade2.play();
     }
 
     @FXML

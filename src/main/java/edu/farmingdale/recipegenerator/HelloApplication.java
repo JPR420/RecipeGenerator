@@ -4,22 +4,37 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.Screen;
+import javafx.geometry.Rectangle2D;
 
 import java.io.IOException;
 
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
+        // Get screen bounds
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        double screenWidth = screenBounds.getWidth();
+        double screenHeight = screenBounds.getHeight();
+
+        // Load FXML
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1400, 900);
+        Scene scene = new Scene(fxmlLoader.load(), screenWidth, screenHeight);
+
+        // Apply external CSS
         scene.getStylesheets().add(getClass().getResource("/Styling/style.css").toExternalForm());
+
+        // Set up the stage
         stage.setTitle("Login");
         stage.setScene(scene);
+        stage.setX(screenBounds.getMinX());
+        stage.setY(screenBounds.getMinY());
+        stage.setWidth(screenWidth);
+        stage.setHeight(screenHeight);
         stage.show();
     }
 
     public static void main(String[] args) {
         launch();
-        System.out.println("CSS Path: " + HelloApplication.class.getResource("/Styling/style.css"));
     }
 }

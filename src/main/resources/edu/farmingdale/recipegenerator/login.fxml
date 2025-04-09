@@ -12,7 +12,17 @@
             prefWidth="1400" prefHeight="900">
 
     <!-- Background Image -->
-    <ImageView fx:id="backgroundImageView" fitHeight="900" fitWidth="1400" />
+    <ImageView fx:id="backgroundImageView"
+               AnchorPane.topAnchor="-10.0"
+               AnchorPane.bottomAnchor="0.0"
+               AnchorPane.leftAnchor="-20.0"
+               AnchorPane.rightAnchor="0.0"
+               preserveRatio="false"
+               smooth="true"
+               cache="true" />
+
+
+
 
     <!-- App Title -->
     <Text fx:id="titleText" text="AI Recipe Generator"
