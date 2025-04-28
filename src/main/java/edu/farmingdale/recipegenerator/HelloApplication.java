@@ -1,5 +1,6 @@
 package edu.farmingdale.recipegenerator;
 
+import edu.farmingdale.recipegenerator.db.ConnDbOps;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -36,7 +37,7 @@ public class HelloApplication extends Application {
         stage.setHeight(screenHeight);
 
         // Connect to the Azure Database
-        AzureDBConnector dbConnector = new AzureDBConnector();
+        ConnDbOps dbConnector = new ConnDbOps();
         boolean isConnected = dbConnector.connectToDatabase();
 
         // Show success or error message depending on the connection result
