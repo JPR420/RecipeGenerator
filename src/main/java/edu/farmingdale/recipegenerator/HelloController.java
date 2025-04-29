@@ -51,6 +51,7 @@ public class HelloController {
     @FXML
     public void initialize() {
         setUpTableView();
+
         responseTextArea.setVisible(false);
 
         // Load and style fridge image
@@ -136,13 +137,18 @@ public class HelloController {
             alertLabel.setText("");
         } catch (Exception e) {
             alertLabel.setText("Invalid input.");
-            return;
         }
     }
 
     @FXML
     public void generateButtonMethod() {
         ObservableList<Item> items = tableView.getItems();
+        if(items.isEmpty()){
+            responseTextArea.setVisible(true);
+            responseTextArea.setEditable(false);
+            responseTextArea.setText("There are not ingredients on the list, Please add some ingredients to the list.");
+            return;
+        }
 
         StringBuilder prompt = new StringBuilder();
         prompt.append("I will provide you with a list of ingredients. Please use these ingredients to generate a recipe.\n");

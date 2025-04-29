@@ -9,13 +9,11 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 
-
-
 /**
  * Utility class to interact with OpenAI's API.
  */
 public class OpenAI {
-    private static final String API_KEY = System.getenv("");
+    private static final String API_KEY = System.getenv("APIKEY");
 
     /**
      * Sends a prompt to the OpenAI API and retrieves a text response.
